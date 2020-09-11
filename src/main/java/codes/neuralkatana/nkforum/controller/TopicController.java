@@ -3,21 +3,28 @@ package codes.neuralkatana.nkforum.controller;
 import codes.neuralkatana.nkforum.dto.TopicDTO;
 import codes.neuralkatana.nkforum.model.Course;
 import codes.neuralkatana.nkforum.model.Topic;
-import org.springframework.stereotype.Controller;
+import codes.neuralkatana.nkforum.repository.TopicRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 
 @RestController
 public class TopicController {
 
+    @Autowired
+    private TopicRepository topicRepository;
+
     @RequestMapping("/topics")
     public List<TopicDTO> list(){
+        List<Topic> topics = topicRepository.findAll();
+        return TopicDTO.topicListToTopicDTOList(topics);
+    }
+
+    public List<TopicDTO> returnListDTOMock(){
         Topic t1 = new Topic("SpringBoot Not Running",
                 "SpringBoot is giving a bean not found exception...",
                 new Course("Spring Core","Programming"));
