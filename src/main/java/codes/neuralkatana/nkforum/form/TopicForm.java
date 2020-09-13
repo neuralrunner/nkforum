@@ -2,12 +2,20 @@ package codes.neuralkatana.nkforum.form;
 
 import codes.neuralkatana.nkforum.model.Topic;
 import codes.neuralkatana.nkforum.repository.CourseRepository;
-import codes.neuralkatana.nkforum.repository.TopicRepository;
 
 public class TopicForm {
     private String title;
     private String message;
     private String courseName;
+
+    public TopicForm() {
+    }
+
+    public TopicForm(String title, String message, String courseName) {
+        this.title = title;
+        this.message = message;
+        this.courseName = courseName;
+    }
 
     public String getTitle() {
         return title;
