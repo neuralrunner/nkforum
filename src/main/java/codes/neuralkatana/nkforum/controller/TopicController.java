@@ -1,5 +1,6 @@
 package codes.neuralkatana.nkforum.controller;
 
+import codes.neuralkatana.nkforum.dto.DetailedTopicDTO;
 import codes.neuralkatana.nkforum.dto.TopicDTO;
 import codes.neuralkatana.nkforum.form.TopicForm;
 import codes.neuralkatana.nkforum.model.Course;
@@ -45,6 +46,12 @@ public class TopicController {
         topicRepository.save(topic);
         URI uri = uriComponentsBuilder.path("/topics/{id}").buildAndExpand(topic.getId()).toUri();
         return ResponseEntity.created(uri).body(new TopicDTO(topic));
+    }
+
+    @GetMapping("/{id}")
+    public DetailedTopicDTO detailTopic(@PathVariable Long id){
+        Topic topic = topicRepository.getOne(id);
+        return new DetailedTopicDTO(topic);
     }
 
     public List<TopicDTO> returnListDTOMock(){

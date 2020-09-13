@@ -13,7 +13,6 @@ public class AnswerDTO {
     private String topicTitle;
     private LocalDateTime creationDate;
     private String authorName;
-    private boolean solved;
 
     public AnswerDTO(Answer answer){
         this.id = answer.getId();
@@ -21,7 +20,6 @@ public class AnswerDTO {
         this.topicTitle = answer.getTopic().getTitle();
         this.creationDate = answer.getCreationDate();
         this.authorName = answer.getAuthor().getName();
-        this.solved = answer.getSolved();
     }
 
     public long getId() {
@@ -44,9 +42,6 @@ public class AnswerDTO {
         return authorName;
     }
 
-    public boolean isSolved() {
-        return solved;
-    }
 
     public static List<AnswerDTO> answerListToAnswerDTOList(List<Answer> list){
         return list.stream().map(AnswerDTO::new).collect(Collectors.toList());
