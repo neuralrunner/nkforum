@@ -2,10 +2,19 @@ package codes.neuralkatana.nkforum.form;
 
 import codes.neuralkatana.nkforum.model.Topic;
 import codes.neuralkatana.nkforum.repository.CourseRepository;
+import com.sun.istack.NotNull;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotEmpty;
 
 public class TopicForm {
+    @NotNull @NotEmpty  @Length(min = 5)
     private String title;
+
+    @NotNull @NotEmpty  @Length(min = 5)
     private String message;
+
+    @NotNull @NotEmpty
     private String courseName;
 
     public TopicForm() {
