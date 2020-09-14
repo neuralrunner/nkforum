@@ -4,7 +4,6 @@ import codes.neuralkatana.nkforum.dto.DetailedTopicDTO;
 import codes.neuralkatana.nkforum.dto.TopicDTO;
 import codes.neuralkatana.nkforum.form.TopicForm;
 import codes.neuralkatana.nkforum.form.UpdateTopicForm;
-import codes.neuralkatana.nkforum.model.Course;
 import codes.neuralkatana.nkforum.model.Topic;
 import codes.neuralkatana.nkforum.repository.CourseRepository;
 import codes.neuralkatana.nkforum.repository.TopicRepository;
@@ -16,7 +15,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -41,6 +39,7 @@ public class TopicController {
     }
 
     @PostMapping
+    @Transactional
     public ResponseEntity<TopicDTO> register(@RequestBody @Valid TopicForm topicForm,
                                              UriComponentsBuilder uriComponentsBuilder){
         //creates a Topic object from a TopicForm one to be able to save
@@ -61,6 +60,13 @@ public class TopicController {
     public ResponseEntity<TopicDTO> update(@PathVariable Long id, @RequestBody @Valid UpdateTopicForm uTopicForm){
             Topic topic = uTopicForm.update(id,topicRepository);
             return ResponseEntity.ok(new TopicDTO(topic));
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity<?> delete(@PathVariable Long id){
+        topicRepository.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 
 }
