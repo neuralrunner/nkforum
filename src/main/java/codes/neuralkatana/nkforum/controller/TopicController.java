@@ -7,7 +7,9 @@ import codes.neuralkatana.nkforum.form.UpdateTopicForm;
 import codes.neuralkatana.nkforum.model.Topic;
 import codes.neuralkatana.nkforum.repository.CourseRepository;
 import codes.neuralkatana.nkforum.repository.TopicRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -23,20 +25,27 @@ import java.util.Optional;
 @RequestMapping("/topics")
 public class TopicController {
 
-    @Autowired
-    private TopicRepository topicRepository;
-    @Autowired
-    private CourseRepository courseRepository;
+    private final TopicRepository topicRepository;
+    private final CourseRepository courseRepository;
+
+    public TopicController(TopicRepository topicRepository, CourseRepository courseRepository) {
+        this.topicRepository = topicRepository;
+        this.courseRepository = courseRepository;
+    }
 
     @GetMapping
-    public List<TopicDTO> list(String courseName){
-        List<Topic> topics;
+    public Page<TopicDTO> list(@RequestParam(required = false) String courseName,
+                               @RequestParam int page,
+                               @RequestParam int quantity){
+        Pageable pageable = PageRequest.of(page,quantity);
+        Page<Topic> topics;
         if(courseName == null) {
-            topics = topicRepository.findAll();
+            topics = topicRepository.findAll(pageable);
         }else{
-            topics = topicRepository.findByCourseName(courseName);
+            topics = topicRepository.findByCourseName(courseName,pageable);
         }
-        return TopicDTO.topicListToTopicDTOList(topics);
+        return TopicDTO.topicPageToTopicDTOPage(topics);
+
     }
 
     @PostMapping
@@ -53,9 +62,7 @@ public class TopicController {
     @GetMapping("/{id}")
     public ResponseEntity<DetailedTopicDTO> detailTopic(@PathVariable Long id){
         Optional<Topic> topic = topicRepository.findById(id);
-        if(topic.isPresent()){
-            return ResponseEntity.ok(new DetailedTopicDTO(topic.get()));
-        }
+        if(topic.isPresent()) return ResponseEntity.ok(new DetailedTopicDTO(topic.get()));
         return ResponseEntity.notFound().build();
 
     }

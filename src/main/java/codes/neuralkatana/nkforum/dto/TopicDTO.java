@@ -1,6 +1,7 @@
 package codes.neuralkatana.nkforum.dto;
 
 import codes.neuralkatana.nkforum.model.Topic;
+import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -35,8 +36,8 @@ public class TopicDTO {
         return creationDate;
     }
 
-    public static List<TopicDTO> topicListToTopicDTOList(List<Topic> list){
-        return list.stream().map(TopicDTO::new).collect(Collectors.toList());
+    public static Page<TopicDTO> topicPageToTopicDTOPage(Page<Topic> list){
+        return list.map(TopicDTO::new);
     }
 
     public static TopicDTO converterTopicToTopicDTO(Topic topic){
