@@ -35,10 +35,8 @@ public class TopicController {
 
     @GetMapping
     public Page<TopicDTO> list(@RequestParam(required = false) String courseName,
-                               @RequestParam int page,
-                               @RequestParam int quantity,
-                               @RequestParam String order){
-        Pageable pageable = PageRequest.of(page,quantity, Sort.Direction.ASC, order);
+                               Pageable pageable){
+        //Pageable pageable = PageRequest.of(page,quantity, Sort.Direction.ASC, order);
         Page<Topic> topics;
 
         if(courseName == null) {
