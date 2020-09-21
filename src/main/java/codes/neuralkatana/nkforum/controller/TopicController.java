@@ -10,6 +10,7 @@ import codes.neuralkatana.nkforum.repository.TopicRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -35,9 +36,11 @@ public class TopicController {
     @GetMapping
     public Page<TopicDTO> list(@RequestParam(required = false) String courseName,
                                @RequestParam int page,
-                               @RequestParam int quantity){
-        Pageable pageable = PageRequest.of(page,quantity);
+                               @RequestParam int quantity,
+                               @RequestParam String order){
+        Pageable pageable = PageRequest.of(page,quantity, Sort.Direction.ASC, order);
         Page<Topic> topics;
+
         if(courseName == null) {
             topics = topicRepository.findAll(pageable);
         }else{
