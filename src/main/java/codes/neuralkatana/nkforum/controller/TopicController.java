@@ -7,10 +7,12 @@ import codes.neuralkatana.nkforum.form.UpdateTopicForm;
 import codes.neuralkatana.nkforum.model.Topic;
 import codes.neuralkatana.nkforum.repository.CourseRepository;
 import codes.neuralkatana.nkforum.repository.TopicRepository;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -34,9 +36,12 @@ public class TopicController {
     }
 
     @GetMapping
+    @Cacheable(value = "topicsList")
     public Page<TopicDTO> list(@RequestParam(required = false) String courseName,
-                               Pageable pageable){
-        //Pageable pageable = PageRequest.of(page,quantity, Sort.Direction.ASC, order);
+                               @PageableDefault(sort="id",
+                                       direction = Sort.Direction.ASC,
+                                       page=0,
+                                       size=10) Pageable pageable){
         Page<Topic> topics;
 
         if(courseName == null) {
@@ -50,6 +55,7 @@ public class TopicController {
 
     @PostMapping
     @Transactional
+    @CacheEvict(value = "topicsList", allEntries = true)
     public ResponseEntity<TopicDTO> register(@RequestBody @Valid TopicForm topicForm,
                                              UriComponentsBuilder uriComponentsBuilder){
         //creates a Topic object from a TopicForm one to be able to save
@@ -69,6 +75,7 @@ public class TopicController {
 
     @PutMapping("/{id}")
     @Transactional
+    @CacheEvict(value = "topicsList", allEntries = true)
     public ResponseEntity<TopicDTO> update(@PathVariable Long id, @RequestBody @Valid UpdateTopicForm uTopicForm){
         Optional<Topic> optionalTopic = topicRepository.findById(id);
         if(optionalTopic.isPresent()){
@@ -80,6 +87,7 @@ public class TopicController {
 
     @DeleteMapping("/{id}")
     @Transactional
+    @CacheEvict(value = "topicsList", allEntries = true)
     public ResponseEntity<?> delete(@PathVariable Long id){
         Optional<Topic> optionalTopic = topicRepository.findById(id);
         if(optionalTopic.isPresent()) {
