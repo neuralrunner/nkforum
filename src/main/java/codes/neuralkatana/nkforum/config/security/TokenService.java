@@ -12,16 +12,22 @@ import java.util.Date;
 @Service
 public class TokenService {
 
+    //Gets the expiration value from application.properties
     @Value("${nkforum.dev.jwt.expiration}")
     private String expiration;
 
+    //Gets the secret string for the token generation from application.properties
     @Value("${nkforum.jwt.secret}")
     private String secret;
 
+    //Generate the token for user
     public String generateToken(Authentication authentication) {
+        //gets the User object from authentication
         User logged = (User) authentication.getPrincipal();
+        //Generates the now Date/time and generates the expiration for the token
         Date now = new Date();
         Date dateExpiration = new Date(now.getTime()+Long.parseLong(expiration));
+        //Returns a json web token
         return Jwts.builder()
                 .setIssuer("NKForum")
                 .setSubject(logged.getId().toString())

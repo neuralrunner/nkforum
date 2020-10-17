@@ -1,6 +1,7 @@
 package codes.neuralkatana.nkforum.controller;
 
 import codes.neuralkatana.nkforum.config.security.TokenService;
+import codes.neuralkatana.nkforum.dto.TokenDTO;
 import codes.neuralkatana.nkforum.form.LoginForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,15 +24,16 @@ public class AuthenticationController {
     private TokenService tokenService;
 
     @PostMapping
-    public ResponseEntity<?> authenticate(@RequestBody @Valid LoginForm form){
+    public ResponseEntity<TokenDTO> authenticate(@RequestBody @Valid LoginForm form){
+        //Converts a LoginForm to a UsernamePasswordAuthenticationToken object
         UsernamePasswordAuthenticationToken loginData = form.converter();
         try{
             Authentication authentication = authManager.authenticate(loginData);
             String token = tokenService.generateToken(authentication);
+            return ResponseEntity.ok(new TokenDTO(token, "Bearer"));
         }catch (AuthenticationException e){
+            //in case not authenticated, creates a badRequest
             return ResponseEntity.badRequest().build();
         }
-
-        return ResponseEntity.ok().build();
     }
 }
