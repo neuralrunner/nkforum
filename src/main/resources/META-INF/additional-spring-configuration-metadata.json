@@ -1,0 +1,18 @@
+{
+  "properties": [
+    {
+      "name": "nkforum.prod.jwt.expiration",
+      "type": "java.lang.String",
+      "description": "Expiration for Time for JWT Token on Production"
+    },
+    {
+      "name": "nkforum.dev.jwt.expiration",
+      "type": "java.lang.String",
+      "description": "Expiration for Time for JWT Token on Development"
+    },
+    {
+      "name": "nkforum.jwt.secret",
+      "type": "java.lang.String",
+      "description": "JWT Secret for Token Generation"
+    }
+  ] }
