@@ -1,6 +1,5 @@
 package codes.neuralkatana.nkforum.dto;
 
-import codes.neuralkatana.nkforum.model.Topic;
 import codes.neuralkatana.nkforum.model.User;
 
 import java.util.List;

@@ -12,14 +12,14 @@ import java.util.Optional;
 @Service
 public class UserAuthenticationService implements UserDetailsService {
 
-    private UserRepository repository;
+    private final UserRepository repository;
 
     public UserAuthenticationService(UserRepository repository) {
         this.repository = repository;
     }
 
     @Override
-    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String userName) {
         Optional<User> user = repository.findByEmail(userName);
         if(user.isPresent()){
             return user.get();

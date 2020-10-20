@@ -1,7 +1,6 @@
 package codes.neuralkatana.nkforum.config.validation;
 
 import codes.neuralkatana.nkforum.dto.FormErrorDTO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
@@ -16,8 +15,12 @@ import java.util.List;
 
 @RestControllerAdvice
 public class ValidationErrorHandler {
-    @Autowired
-    private MessageSource messageSource;
+
+    private final MessageSource messageSource;
+
+    public ValidationErrorHandler(MessageSource messageSource) {
+        this.messageSource = messageSource;
+    }
 
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)

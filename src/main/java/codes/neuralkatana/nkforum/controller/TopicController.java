@@ -39,9 +39,7 @@ public class TopicController {
     @Cacheable(value = "topicsList")
     public Page<TopicDTO> list(@RequestParam(required = false) String courseName,
                                @PageableDefault(sort="id",
-                                       direction = Sort.Direction.ASC,
-                                       page=0,
-                                       size=10) Pageable pageable){
+                                       direction = Sort.Direction.ASC) Pageable pageable){
         Page<Topic> topics;
 
         if(courseName == null) {
@@ -68,8 +66,9 @@ public class TopicController {
     @GetMapping("/{id}")
     public ResponseEntity<DetailedTopicDTO> detailTopic(@PathVariable Long id){
         Optional<Topic> topic = topicRepository.findById(id);
-        if(topic.isPresent()) return ResponseEntity.ok(new DetailedTopicDTO(topic.get()));
-        return ResponseEntity.notFound().build();
+        return topic.map(value ->
+                ResponseEntity.ok(new DetailedTopicDTO(value)))
+                .orElseGet(() -> ResponseEntity.notFound().build());
 
     }
 
@@ -88,7 +87,7 @@ public class TopicController {
     @DeleteMapping("/{id}")
     @Transactional
     @CacheEvict(value = "topicsList", allEntries = true)
-    public ResponseEntity<?> delete(@PathVariable Long id){
+    public ResponseEntity<Void> delete(@PathVariable Long id){
         Optional<Topic> optionalTopic = topicRepository.findById(id);
         if(optionalTopic.isPresent()) {
             topicRepository.deleteById(id);

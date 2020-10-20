@@ -1,7 +1,6 @@
 package codes.neuralkatana.nkforum.dto;
 
 import codes.neuralkatana.nkforum.model.Answer;
-import codes.neuralkatana.nkforum.model.Topic;
 
 import java.time.LocalDateTime;
 import java.util.List;

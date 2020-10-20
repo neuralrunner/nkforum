@@ -1,7 +1,5 @@
 package codes.neuralkatana.nkforum.form;
 
-import codes.neuralkatana.nkforum.model.Answer;
-
 import java.time.LocalDateTime;
 
 public class AnswerForm {

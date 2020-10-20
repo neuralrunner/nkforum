@@ -20,7 +20,7 @@ public class User implements UserDetails {
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<UserProfileSecurity> userProfileSecurityList = new ArrayList<>();
+    private List<Profile> profileList = new ArrayList<>();
 
     public User() {
     }
@@ -57,7 +57,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.userProfileSecurityList;
+        return this.profileList;
     }
 
     public String getPassword() {

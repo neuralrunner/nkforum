@@ -3,6 +3,7 @@ package codes.neuralkatana.nkforum.config.security;
 import codes.neuralkatana.nkforum.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -16,6 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @EnableWebSecurity
 @Configuration
+@Profile("prod")
 public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 
     private final UserAuthenticationService userAuthenticationService;
@@ -53,6 +55,11 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/topics/*").permitAll()
                 .antMatchers(HttpMethod.POST, "/auth").permitAll()
                 .antMatchers(HttpMethod.GET, "/actuator/**").permitAll()
+                .antMatchers(HttpMethod.DELETE, "/topics/*").hasRole("MODERATOR")
+                /*.antMatchers(HttpMethod.GET, "/h2").permitAll()
+                .antMatchers(HttpMethod.GET, "/h2/*").permitAll()
+                .antMatchers(HttpMethod.POST, "/h2").permitAll()
+                .antMatchers(HttpMethod.POST, "/h2/*").permitAll()*/
                 .anyRequest().authenticated()
                 .and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -62,13 +69,14 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 
     //Static Resources Config(js,css,images,etc.)
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(WebSecurity web) {
         //Swagger2 Static Resources files
         web.ignoring()
                 .antMatchers("/**.html",
                         "/v2/api-docs",
                         "/webjars/**",
                         "/configuration/**",
-                        "/swagger-resources/**");
+                        "/swagger-resources/**",
+                        "/h2/**");
     }
 }

@@ -1,4 +1,12 @@
 INSERT INTO USER(name,email,password) VALUES ('Zeus', 'zeus@olympus.com', '$2a$10$p4jjgP0qWaJ2eg0vJqVQSeGWOdN9OlsvGtIzI7XGRArX5a2qlNtyG');
+INSERT INTO USER(name,email,password) VALUES ('Mod', 'moderator@nkforum.com', '$2a$10$p4jjgP0qWaJ2eg0vJqVQSeGWOdN9OlsvGtIzI7XGRArX5a2qlNtyG');
+
+INSERT INTO PROFILE(id,name) VALUES(1, 'ROLE_USER');
+INSERT INTO PROFILE(id,name) VALUES(2, 'ROLE_MODERATOR');
+
+INSERT INTO USER_PROFILE_LIST(user_id, profile_list_id) values (1,1);
+INSERT INTO USER_PROFILE_LIST(user_id, profile_list_id) values (2,2);
+
 
 INSERT INTO COURSE(name,category) VALUES ('Spring Boot', 'Programming');
 INSERT INTO COURSE(name, category) VALUES('Android', 'Programming');
