@@ -12,4 +12,6 @@ ${Ansi.WHITE}                           ██▪  ▄█▀▄ ▐▀▀▄ █
 ${Ansi.WHITE}                           ██▌.▐█▌.▐▌▐█•█▌▐█▄█▌██ ██▌▐█▌
 ${Ansi.WHITE}                           ▀▀▀  ▀█▄▀▪.▀  ▀ ▀▀▀ ▀▀  █▪▀▀▀
 
+${Ansi.GREEN} :: App.Properties.Profile: ${app.message} :: ${Ansi.DEFAULT}
 ${Ansi.GREEN} :: Spring Boot${spring-boot.formatted-version} :: ${Ansi.DEFAULT}
+

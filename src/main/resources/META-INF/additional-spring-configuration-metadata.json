@@ -14,5 +14,10 @@
       "name": "nkforum.jwt.secret",
       "type": "java.lang.String",
       "description": "JWT Secret for Token Generation"
+    },
+    {
+      "name": "app.message",
+      "type": "java.lang.String",
+      "description": "A Starter Message..."
     }
   ] }
